@@ -1,0 +1,1481 @@
+--[]--[[iMurphyz Orb]]--[]--[[Made By iMurphyz]]--[]--
+tool = Instance.new("HopperBin",game.Players.LocalPlayer.Backpack)
+tool.Name = "Laser"
+
+script.Parent = game.Players.LocalPlayer.Backpack.Laser
+
+local Banned = {"Noob","iCoud"}
+local Selected = false 
+local Shoot = true
+Animate = false
+Particles = true
+Rotate = true
+Trail = true
+isOrb = false --Don't touch this.
+local Left = false
+local Right = false
+local Up = false
+local Down = false
+local Forward = false
+local Backward = false
+local TargetPoint = Vector3.new()
+Mouse = game.Players.LocalPlayer:GetMouse()
+PetNaim = "Alpha" --PET NAME HERE!!!
+OrbSpeed = 2 --Speed
+Follow = false
+Camera = Workspace.CurrentCamera
+
+Orb = Instance.new("Part",game.Lighting)
+Orb.Size = Vector3.new(3,3,3)
+Orb.Name = PetNaim
+Orb.Anchored = true
+Orb.Material = "Slate"
+Orb.BrickColor = BrickColor.new("Black")
+Orb.Shape = "Ball"
+local orbname = Instance.new("BillboardGui")
+orbname.Parent = Orb
+orbname.Adornee = Orb
+orbname.Size = UDim2.new(1, 0, 1, 0)
+orbname.StudsOffset = Vector3.new(0, 2, 0)
+orbtext = Instance.new("TextLabel")
+orbtext.Parent = orbname
+orbtext.Transparency = 1
+orbtext.Position = UDim2.new(-9.5, 0, -1.5, 0)
+orbtext.Size = UDim2.new(20, 0, 3, 0)
+orbtext.FontSize = "Size18"
+orbtext.TextColor3 = Color3.new(0, 0, 0)
+orbtext.TextStrokeColor3 = Color3.new(1, 1, 1)
+orbtext.TextStrokeTransparency = 0
+orbtext.Text = PetNaim
+orbtext.TextWrapped = true
+orbtext.TextScaled = false
+orbtext.TextTransparency=0
+game.Players.LocalPlayer.Chatted:connect(function(Msg)
+if (Msg:sub(1,2)) ~= "/e" then
+orbtext.Text = Msg
+wait(4)
+orbtext.Text = PetNaim
+end
+end)
+
+local function OnKey(key, isDown)
+	key = key:lower()
+	if key == 'w' or key == '' then
+		Forward = isDown
+	elseif key == 's' or key == '' then
+		Backward = isDown
+	elseif key == 'a' or key == '' then
+		Left = isDown
+	elseif key == 'd' or key == '' then
+		Right = isDown
+	elseif key == 'e' then
+		Up = isDown
+	elseif key == 'q' then
+		Down = isDown
+end
+end
+
+function Warp()
+Camera.CameraSubject = Orb
+Camera.CameraType = Enum.CameraType.Follow
+Orb.CFrame = game.Players.LocalPlayer.Character.Torso.CFrame
+Orb.Velocity = Vector3.new()
+Orb.Parent = Workspace
+game.Players.LocalPlayer.Character:MoveTo(Vector3.new(5e6, 5e6, 5e6))
+game.Players.LocalPlayer.Character.Torso.Anchored = true
+TargetPoint = Orb.Position
+end
+
+function Reload()
+Orb.Parent = game.Lighting
+game.Players.LocalPlayer.Character:MoveTo(Orb.Position)
+game.Players.LocalPlayer.Character.Torso.Anchored = false
+game.Players.LocalPlayer.Character.Torso.Velocity = Vector3.new()
+Camera.CameraSubject = game.Players.LocalPlayer.Character
+Camera.CameraType = Enum.CameraType.Custom
+end
+
+game.Players.PlayerAdded:connect(function(name)
+for i,v in pairs(Banned) do
+if name.Name:lower() == v.Name:lower() then
+v:Destroy()
+end
+end
+end)
+
+function Find(name)
+for i,v in ipairs(game.Players:GetPlayers()) do
+if v.Name:sub(1,#name):lower()== name:lower()then
+return v
+end
+end
+end
+
+function Click(Target) 
+		local P = Instance.new("Part") 
+		P.Name = "pewpew" 
+		local Place0 = script.Parent.Parent.Parent.Character["Left Arm"].CFrame 
+		P.FormFactor = Enum.FormFactor.Custom
+		P.TopSurface = Enum.SurfaceType.Smooth
+		P.BottomSurface = Enum.SurfaceType.Smooth
+		P.Size = Vector3.new(0.4,0.4,(Place0.p - Target.Hit.p).magnitude) 
+		P.CFrame = CFrame.new((Place0.p + Target.Hit.p)/2,Place0.p) 
+		P.Parent = game.Workspace 
+		P.Color = Color3.new(0,0,1) 
+		P.Transparency = 0.5 
+		P.Reflectance = 0.5 
+		P.Anchored = true 
+		P.CanCollide = false 
+		M = Instance.new("BlockMesh",P)
+		M.Scale = Vector3.new(0.5,0.5,1)
+		Laser = Instance.new("Sound")
+		Laser.SoundId = "http://www.roblox.com/asset/?id=132594796"
+		Laser.Parent = game.SoundService
+		Laser.Volume = .7
+		Laser:Play()
+		wait()
+		Laser:Destroy()
+		for i = 1,5 do 
+			P.Transparency = 0.25+(i*0.1) 
+			P.Reflectance = i*0.1 
+			wait() 
+			end 
+		P:Destroy()
+		Target.Target.Parent:findFirstChild("Humanoid").Health = 0
+		if Target.Target.Parent:findFirstChild("Humanoid").Health == 0 then
+		local chatgui = Instance.new("BillboardGui")
+		chatgui.Parent = Target.Target.Parent
+chatgui.Adornee = Target.Target.Parent.Head
+chatgui.Size = UDim2.new(1, 0, 1, 0)
+chatgui.StudsOffset = Vector3.new(0, 2, 0)
+
+local text = Instance.new("TextLabel")
+text.Parent = chatgui
+text.Transparency = 1
+text.Position = UDim2.new(-9.5, 0, -1.5, 0)
+text.Size = UDim2.new(20, 0, 3, 0)
+text.FontSize = "Size18"
+text.TextColor3 = Color3.new(0, 0, 0)
+text.TextStrokeColor3 = Color3.new(1, 1, 1)
+text.TextStrokeTransparency = 0
+text.Text = "Death is apon you..."
+text.TextWrapped = true
+text.TextScaled = false
+text.TextTransparency=0
+for i = 1,40 do
+text.Position = text.Position - UDim2.new(0, 0, 0.025, 0)
+wait()
+end
+for i = 1,40 do
+text.TextTransparency = text.TextTransparency + 0.025
+text.TextStrokeTransparency = text.TextStrokeTransparency + 0.025
+wait()
+end
+wait(1)
+text:Destroy()
+chatgui:Destroy()
+end
+end
+
+function Select(Mouse) 
+	local Arm = script.Parent.Parent.Parent.Character:findFirstChild("Left Arm") 
+	if(Arm==nil)then 
+		script.Parent:Destroy()
+		script:Destroy()
+	end 
+	Selected = true 
+	local Torso = script.Parent.Parent.Parent.Character:findFirstChild("Torso") 
+	if(Torso==nil)then 
+		script.Parent:Destroy()
+		script:Destroy()
+	end 
+	local ArmWeld = Torso:findFirstChild("Left Shoulder") 
+	if(ArmWeld~=nil)then 
+		ArmWeld.Parent = nil 
+	end 
+	
+	Mouse.Button1Down:connect(function()Click(Mouse)end) 
+	Arm.Anchored = true 
+	while Selected do 
+		local Place0 = script.Parent.Parent.Parent.Character.Torso.CFrame 
+		Place0 = Place0 + ((Place0 * CFrame.fromEulerAnglesXYZ(math.pi/2,0,0)).lookVector * 0.5) + (Place0 * CFrame.fromEulerAnglesXYZ(0,math.pi/2,0)).lookVector 
+		local Place1 = Place0 + ((Place0.p-Mouse.Hit.p).unit * -2) 
+		Arm.CFrame = CFrame.new((Place0.p + Place1.p)/2,Place0.p) * CFrame.fromEulerAnglesXYZ(-math.pi/2,0,0) 
+		wait() 
+	end 
+	Arm.Anchored = false 
+	if(ArmWeld~=nil)then 
+		ArmWeld.Parent = Torso 
+	end 
+end
+
+function Deselect() 
+	Selected = false 
+end
+
+script.Parent.Selected:connect(Select) 
+script.Parent.Deselected:connect(Deselect)
+
+Animation = coroutine.wrap(function()
+wait()
+lp = game.Players.LocalPlayer
+CP,Torso,g=nil,nil,nil
+necko=CFrame.new(0, 1, 0, -1, -0, -0, 0, 0, 1, 0, 1, 0)
+getPos=function(Pos,TorsoPos)
+	return Vector3.new(Pos.x,TorsoPos.y,Pos.z)
+end
+Turn=function(mouse,Torso,Gyro)
+	g.cframe=CFrame.new(Torso.Position,getPos(mouse.Hit.p,Torso.Position))
+	offset=(Torso.Position.y-mouse.Hit.p.y)/100
+	mag=(Torso.Position-mouse.Hit.p).magnitude/80
+	offset=offset/mag
+	neck=Torso.Neck
+	neck.C0=necko*CFrame.fromEulerAnglesXYZ(offset,0,0)
+	arm=Torso:FindFirstChild("Right Shoulder")
+	if arm~=nil then
+		arm.C0=CFrame.new(1, 0.5, 0, 0, 0, 1, -6.48200512e-007, 1.00000274, 0, -1.00000274, -6.48200512e-007, 0)*CFrame.fromEulerAnglesXYZ(0,0,-offset)
+	end
+end
+Equi=function(mouse)
+	wait(.2)	
+	CP=lp.Character
+	Torso=CP.Torso
+	g=Instance.new("BodyGyro")
+	g.P=18000
+	g.D=600
+	g.maxTorque=Vector3.new(80000,80000000,80000)*50000000000000000000000000
+	g.cframe=Torso.CFrame
+	g.Parent=Torso
+	while true do
+		Turn(mouse,Torso,g)
+		wait()
+	end
+	Torso.Neck.C0=necko
+	g:Remove()
+end
+Equi(game.Players.LocalPlayer:GetMouse())
+end)
+
+if (Animate == true) then
+Animation()
+end
+
+game.Players.LocalPlayer.Chatted:connect(function(Msg)
+if (Msg:sub(1,2)) ~= "/e" then
+local chatgui = Instance.new("BillboardGui")
+chatgui.Parent = game.Players.LocalPlayer.Character
+chatgui.Adornee = game.Players.LocalPlayer.Character.Head
+chatgui.Size = UDim2.new(1, 0, 1, 0)
+chatgui.StudsOffset = Vector3.new(0, 2, 0)
+
+local text = Instance.new("TextLabel")
+text.Parent = chatgui
+text.Transparency = 1
+text.Position = UDim2.new(-9.5, 0, -1.5, 0)
+text.Size = UDim2.new(20, 0, 3, 0)
+text.FontSize = "Size18"
+text.TextColor3 = Color3.new(0, 0, 0)
+text.TextStrokeColor3 = Color3.new(1, 1, 1)
+text.TextStrokeTransparency = 0
+text.TextTransparency=0
+Message = Msg
+for i = 1,#Message do
+	text.Text = string.sub(Message, 1, i)
+	wait(0.05)
+end
+text.TextWrapped = true
+text.TextScaled = false
+for i = 1,40 do
+text.Position = text.Position - UDim2.new(0, 0, 0.025, 0)
+wait()
+end
+for i = 1,40 do
+text.TextTransparency = text.TextTransparency + 0.025
+text.TextStrokeTransparency = text.TextStrokeTransparency + 0.025
+wait()
+end
+wait(1)
+text:Destroy()
+chatgui:Destroy()
+end
+end)
+
+Particle = coroutine.wrap(function()
+while true do
+P1 = Instance.new("Part",game.Players.LocalPlayer.Character)
+P2 = Instance.new("Part",game.Players.LocalPlayer.Character)
+P3 = Instance.new("Part",game.Players.LocalPlayer.Character)
+P4 = Instance.new("Part",game.Players.LocalPlayer.Character)
+P1.Size = Vector3.new(0.2,0.2,0.2)
+P2.Size = Vector3.new(0.2,0.2,0.2)
+P3.Size = Vector3.new(0.2,0.2,0.2)
+P4.Size = Vector3.new(0.2,0.2,0.2)
+P1.BrickColor = BrickColor.new("White")
+P2.BrickColor = BrickColor.new("White")
+P3.BrickColor = BrickColor.new("Black")
+P4.BrickColor = BrickColor.new("Black")
+Mesh1 = Instance.new("BlockMesh",P1)
+Mesh2 = Instance.new("BlockMesh",P2)
+Mesh3 = Instance.new("BlockMesh",P3)
+Mesh4 = Instance.new("BlockMesh",P4)
+Mesh1.Scale = Vector3.new(0.2,0.2,0.2)
+Mesh2.Scale = Vector3.new(0.2,0.2,0.2)
+Mesh3.Scale = Vector3.new(0.2,0.2,0.2)
+Mesh4.Scale = Vector3.new(0.2,0.2,0.2)
+P1.Transparency = 0.5
+P2.Transparency = 0.5
+P3.Transparency = 0.5
+P4.Transparency = 0.5
+P1.Anchored = true
+P2.Anchored = true
+P3.Anchored = true
+P4.Anchored = true
+P1.CanCollide = false
+P2.CanCollide = false
+P3.CanCollide = false
+P4.CanCollide = false
+P1.CFrame = game.Players.LocalPlayer.Character.Head.CFrame * CFrame.new(1,1,4) 
+P2.CFrame = game.Players.LocalPlayer.Character.Head.CFrame * CFrame.new(1,-1,-4)
+P3.CFrame = game.Players.LocalPlayer.Character.Head.CFrame * CFrame.Angles(0,math.pi,0) * CFrame.new(1,1,4)
+P4.CFrame = game.Players.LocalPlayer.Character.Head.CFrame * CFrame.Angles(0,math.pi,0) * CFrame.new(1,-1,-4)
+for i = 1,25 do
+P1.Transparency = P1.Transparency + 0.05
+P2.Transparency = P2.Transparency + 0.05
+P3.Transparency = P1.Transparency + 0.05
+P4.Transparency = P2.Transparency + 0.05
+P1.CFrame = P1.CFrame * CFrame.new(0,0.5,0.3)
+P2.CFrame = P2.CFrame * CFrame.new(0,0.5,0.3)
+P3.CFrame = P3.CFrame * CFrame.new(0,0.5,0.3)
+P4.CFrame = P4.CFrame * CFrame.new(0,0.5,0.3)
+wait()
+P1.CFrame = P1.CFrame * CFrame.new(0,0.5,-0.1)
+P2.CFrame = P2.CFrame * CFrame.new(0,0.5,-0.1)
+P3.CFrame = P3.CFrame * CFrame.new(0,0.5,-0.1)
+P4.CFrame = P4.CFrame * CFrame.new(0,0.5,-0.1)
+wait()
+end
+wait()
+P1:Destroy()
+P2:Destroy()
+end
+end)
+Particle()
+
+--[[
+if Trail then
+OrbTrail = coroutine.wrap(function()
+while true do
+if game.Players.LocalPlayer[PetNaim] then
+Trail1 = game.Players.LocalPlayer[PetNaim]:Clone()
+Trail2 = Trail1:Clone()
+Trail3 = Trail2:Clone()
+P1.Size = Vector3.new(0.2,0.2,0.2)
+P2.Size = Vector3.new(0.2,0.2,0.2)
+P3.Size = Vector3.new(0.2,0.2,0.2)
+P4.Size = Vector3.new(0.2,0.2,0.2)
+P1.BrickColor = BrickColor.new("White")
+P2.BrickColor = BrickColor.new("White")
+P3.BrickColor = BrickColor.new("Black")
+P4.BrickColor = BrickColor.new("Black")
+Mesh1 = Instance.new("BlockMesh",P1)
+Mesh2 = Instance.new("BlockMesh",P2)
+Mesh3 = Instance.new("BlockMesh",P3)
+Mesh4 = Instance.new("BlockMesh",P4)
+Mesh1.Scale = Vector3.new(0.2,0.2,0.2)
+Mesh2.Scale = Vector3.new(0.2,0.2,0.2)
+Mesh3.Scale = Vector3.new(0.2,0.2,0.2)
+Mesh4.Scale = Vector3.new(0.2,0.2,0.2)
+P1.Transparency = 0.5
+P2.Transparency = 0.5
+P3.Transparency = 0.5
+P4.Transparency = 0.5
+P1.Anchored = true
+P2.Anchored = true
+P3.Anchored = true
+P4.Anchored = true
+P1.CanCollide = false
+P2.CanCollide = false
+P3.CanCollide = false
+P4.CanCollide = false
+P1.CFrame = game.Players.LocalPlayer.Character.Head.CFrame * CFrame.new(1,1,4) 
+P2.CFrame = game.Players.LocalPlayer.Character.Head.CFrame * CFrame.new(1,-1,-4)
+P3.CFrame = game.Players.LocalPlayer.Character.Head.CFrame * CFrame.Angles(0,math.pi,0) * CFrame.new(1,1,4)
+P4.CFrame = game.Players.LocalPlayer.Character.Head.CFrame * CFrame.Angles(0,math.pi,0) * CFrame.new(1,-1,-4)
+for i = 1,25 do
+P1.Transparency = P1.Transparency + 0.05
+P2.Transparency = P2.Transparency + 0.05
+P3.Transparency = P1.Transparency + 0.05
+P4.Transparency = P2.Transparency + 0.05
+P1.CFrame = P1.CFrame * CFrame.new(0,0.5,0.3)
+P2.CFrame = P2.CFrame * CFrame.new(0,0.5,0.3)
+P3.CFrame = P3.CFrame * CFrame.new(0,0.5,0.3)
+P4.CFrame = P4.CFrame * CFrame.new(0,0.5,0.3)
+wait()
+P1.CFrame = P1.CFrame * CFrame.new(0,0.5,-0.1)
+P2.CFrame = P2.CFrame * CFrame.new(0,0.5,-0.1)
+P3.CFrame = P3.CFrame * CFrame.new(0,0.5,-0.1)
+P4.CFrame = P4.CFrame * CFrame.new(0,0.5,-0.1)
+wait()
+end
+wait()
+P1:Destroy()
+P2:Destroy()
+end
+end)
+OrbTrail()
+end
+--]]
+
+game.Players.LocalPlayer.Chatted:connect(function(msg)
+if msg:lower():sub(1,3) == "ff " then
+if (msg:sub(4)) == "me" then
+game.Players.LocalPlayer.Character.Humanoid.MaxHealth = math.huge
+FF = Instance.new("Part",game.Players.LocalPlayer.Character)
+FF.Anchored = true
+FF.Archivable = false
+FF.Locked = true
+FF.Transparency = 0.5
+FF.BrickColor = BrickColor.new("Really black")
+FF.TopSurface = Enum.SurfaceType.Smooth
+FF.BottomSurface = Enum.SurfaceType.Smooth
+FF.CanCollide = false
+FF.Shape = "Ball"
+FF.Touched:connect(function(Hit)
+if Hit.Parent then
+if Hit.Parent.Name ~= game.Players.LocalPlayer.Name then
+if Hit.Parent:FindFirstChild("Humanoid") then
+		BF = Instance.new("BodyForce",Hit.Parent.Torso)
+		Shock = coroutine.wrap(function()
+		while true do
+		Hit.Parent.Torso.CFrame = Hit.Parent.Torso.CFrame * CFrame.Angles(0, math.pi, 0)
+		wait()
+		end
+		end)
+		Shock()
+		BF.force = Vector3.new(0, 800, 0)
+		wait(1)
+		BF.force = Vector3.new(0, 100, 0)
+		wait(3)
+		BF.force = Vector3.new(0, -600000, 0)
+		
+		local chatgui = Instance.new("BillboardGui")
+		chatgui.Parent = Hit.Parent.Head
+chatgui.Adornee = Hit.Parent.Head
+chatgui.Size = UDim2.new(1, 0, 1, 0)
+chatgui.StudsOffset = Vector3.new(0, 2, 0)
+
+local text = Instance.new("TextLabel")
+text.Parent = chatgui
+text.Transparency = 1
+text.Position = UDim2.new(-9.5, 0, -1.5, 0)
+text.Size = UDim2.new(20, 0, 3, 0)
+text.FontSize = "Size18"
+text.TextColor3 = Color3.new(0, 0, 0)
+text.TextStrokeColor3 = Color3.new(1, 1, 1)
+text.TextStrokeTransparency = 0
+text.Text = "Shocking, isn't it?"
+text.TextWrapped = true
+text.TextScaled = false
+text.TextTransparency=0
+for i = 1,40 do
+text.Position = text.Position - UDim2.new(0, 0, 0.025, 0)
+wait()
+end
+for i = 1,40 do
+text.TextTransparency = text.TextTransparency + 0.025
+text.TextStrokeTransparency = text.TextStrokeTransparency + 0.025
+wait()
+end
+wait(1)
+text:Destroy()
+chatgui:Destroy()
+end
+end
+end
+end)
+positon = coroutine.wrap(function()
+while true do
+FF.CFrame = game.Players.LocalPlayer.Character.Torso.CFrame
+wait()
+end
+end)
+positon()
+FF.Size = Vector3.new(8,8,8)
+game.Players.LocalPlayer.Chatted:connect(function(msg)
+if msg:lower() == "extendff" then
+FF.Size = Vector3.new(18,18,18)
+elseif msg:lower() == "superff" then
+FF.Size = Vector3.new(30,30,30)
+elseif msg:lower() == "megaff" then
+FF.Size = Vector3.new(50,50,50)
+elseif msg:lower() == "normff" then
+FF.Size = Vector3.new(8,8,8)
+elseif msg:lower():sub(1,7) == "ffsize " then
+FF.Size = Vector3.new((msg:sub(8)),(msg:sub(8)),(msg:sub(8)))
+elseif msg:lower():sub(1,8) == "ffcolor " then
+FF.BrickColor = BrickColor.new((msg:sub(9)))
+FF2.BrickColor = BrickColor.new((msg:sub(9)))
+if (msg:sub(9)) == "norm" then
+FF.BrickColor = BrickColor.new("Really black")
+FF2.BrickColor = BrickColor.new("Black")
+end
+end
+end)
+FF2 = Instance.new("Part",game.Players.LocalPlayer.Character)
+FF2.Anchored = true
+FF2.Transparency = 0.5
+FF2.Archivable = false
+FF2.Locked = true
+FF2.BrickColor = BrickColor.new("Black")
+FF2.TopSurface = Enum.SurfaceType.Smooth
+FF2.BottomSurface = Enum.SurfaceType.Smooth
+FF2.CanCollide = false
+FF2.Shape = "Ball"
+position = coroutine.wrap(function()
+while true do
+FF2.CFrame = game.Players.LocalPlayer.Character.Torso.CFrame
+wait()
+end
+end)
+position()
+FF2.Size = Vector3.new(7,7,7)
+else
+local Player = Find(msg:sub(4))
+if Player then
+Player.Character.Humanoid.MaxHealth = math.huge
+FF3 = Instance.new("Part",Player.Character)
+FF3.Anchored = true
+FF3.Archivable = false
+FF3.Locked = true
+FF3.Transparency = 0.5
+FF3.BrickColor = BrickColor.new("Really black")
+FF3.TopSurface = Enum.SurfaceType.Smooth
+FF3.BottomSurface = Enum.SurfaceType.Smooth
+FF3.CanCollide = false
+FF3.Shape = "Ball"
+FF3.Touched:connect(function(Hit)
+if Hit.Parent then
+if Hit.Parent.Name ~= Player.Name then
+if Hit.Parent:FindFirstChild("Humanoid") then
+		BF = Instance.new("BodyForce",Hit.Parent.Torso)
+		Shock = coroutine.wrap(function()
+		while true do
+		Hit.Parent.Torso.CFrame = Hit.Parent.Torso.CFrame * CFrame.Angles(0, math.pi, 0)
+		wait()
+		end
+		end)
+		Shock()
+		BF.force = Vector3.new(0, 800, 0)
+		wait(1)
+		BF.force = Vector3.new(0, 100, 0)
+		wait(3)
+		BF.force = Vector3.new(0, -600000, 0)
+		
+		local chatgui = Instance.new("BillboardGui")
+		chatgui.Parent = Hit.Parent.Head
+chatgui.Adornee = Hit.Parent.Head
+chatgui.Size = UDim2.new(1, 0, 1, 0)
+chatgui.StudsOffset = Vector3.new(0, 2, 0)
+
+local text = Instance.new("TextLabel")
+text.Parent = chatgui
+text.Transparency = 1
+text.Position = UDim2.new(-9.5, 0, -1.5, 0)
+text.Size = UDim2.new(20, 0, 3, 0)
+text.FontSize = "Size18"
+text.TextColor3 = Color3.new(0, 0, 0)
+text.TextStrokeColor3 = Color3.new(1, 1, 1)
+text.TextStrokeTransparency = 0
+text.Text = "Shocking, isn't it?"
+text.TextWrapped = true
+text.TextScaled = false
+text.TextTransparency=0
+for i = 1,40 do
+text.Position = text.Position - UDim2.new(0, 0, 0.025, 0)
+wait()
+end
+for i = 1,40 do
+text.TextTransparency = text.TextTransparency + 0.025
+text.TextStrokeTransparency = text.TextStrokeTransparency + 0.025
+wait()
+end
+wait(1)
+text:Destroy()
+chatgui:Destroy()
+end
+end
+end
+end)
+position = coroutine.wrap(function()
+while true do
+FF3.CFrame = Player.Character.Torso.CFrame
+wait()
+end
+end)
+position()
+FF3.Size = Vector3.new(8,8,8)
+FF4 = Instance.new("Part",Player.Character)
+FF4.Anchored = true
+FF4.Transparency = 0.5
+FF4.Archivable = false
+FF4.Locked = true
+FF4.BrickColor = BrickColor.new("Black")
+FF4.TopSurface = Enum.SurfaceType.Smooth
+FF4.BottomSurface = Enum.SurfaceType.Smooth
+FF4.CanCollide = false
+FF4.Shape = "Ball"
+position = coroutine.wrap(function()
+while true do
+FF4.CFrame = Player.Character.Torso.CFrame
+wait()
+end
+end)
+position()
+FF4.Size = Vector3.new(7,7,7)
+end
+end
+elseif msg:lower():sub(1,5) == "unff " then
+if (msg:sub(6)) == "me" then
+game.Players.LocalPlayer.Character.Humanoid.MaxHealth = 100
+FF:Destroy()
+FF2:Destroy()
+else
+local Player = Find(msg:sub(6))
+if Player then
+Player.Character.Humanoid.MaxHealth = 100
+FF3:Destroy()
+FF4:Destroy()
+end
+end
+end
+end)
+
+game.Players.LocalPlayer.Chatted:connect(function(msg)
+if msg:lower() == "float" then
+        float = Instance.new("BodyPosition", game.Players.LocalPlayer.Character.Torso)
+        float.maxForce = Vector3.new(0, 1000000000, 0)
+        float.position = game.Players.LocalPlayer.Character.Torso.Position
+elseif msg:lower() == "down" then
+        parts = game.Players.LocalPlayer.Character.Torso:GetChildren()
+        for i=1, #parts do
+                if parts[i].ClassName == "BodyPosition" then
+                        parts[i]:Destroy()
+                end
+        end
+		elseif msg:lower() == "base" then
+e=Instance.new("Part",workspace)
+e.Anchored = true
+e.Size = Vector3.new(1000,1,1000)
+e.BrickColor = BrickColor.new("Camo")
+e.Name = "BasePlate"
+end
+end)
+
+--[[Mouse.KeyDown:connect(function(key)
+if key:lower() == "g" then
+Ground = Instance.new("Part",game.Players.LocalPlayer.Character)
+Ground1 = Instance.new("Part",game.Players.LocalPlayer.Character)
+Ground2 = Instance.new("Part",game.Players.LocalPlayer.Character)
+Ground3 = Instance.new("Part",game.Players.LocalPlayer.Character)
+Ground4 = Instance.new("Part",game.Players.LocalPlayer.Character)
+Ground5 = Instance.new("Part",game.Players.LocalPlayer.Character)
+Ground6 = Instance.new("Part",game.Players.LocalPlayer.Character)
+Ground7 = Instance.new("Part",game.Players.LocalPlayer.Character)
+Ground8 = Instance.new("Part",game.Players.LocalPlayer.Character)
+Ground9 = Instance.new("Part",game.Players.LocalPlayer.Character)
+Ground10 = Instance.new("Part",game.Players.LocalPlayer.Character)
+Ground11 = Instance.new("Part",game.Players.LocalPlayer.Character)
+print("All fine at start")
+Ground.Name = "Ground"
+Ground.Anchored = true
+Ground.Size = Vector3.new(2,3,2)
+Ground.BrickColor = BrickColor.new("Black")
+Ground1.Name = "Ground1"
+Ground1.Anchored = true
+Ground1.Size = Vector3.new(2,3,2)
+Ground1.BrickColor = BrickColor.new("Black")
+Ground2.Name = "Ground2"
+Ground2.Anchored = true
+Ground2.Size = Vector3.new(2,3,2)
+Ground2.BrickColor = BrickColor.new("Black")
+Ground3.Name = "Ground3"
+Ground3.Anchored = true
+Ground3.Size = Vector3.new(2,3,2)
+Ground3.BrickColor = BrickColor.new("Black")
+Ground4.Name = "Ground4"
+Ground4.Anchored = true
+Ground4.Size = Vector3.new(2,3,2)
+Ground4.BrickColor = BrickColor.new("Black")
+Ground5.Name = "Ground5"
+Ground5.Anchored = true
+Ground5.Size = Vector3.new(2,3,2)
+Ground5.BrickColor = BrickColor.new("Black")
+Ground6.Name = "Ground6"
+Ground6.Anchored = true
+Ground6.Size = Vector3.new(2,3,2)
+Ground6.BrickColor = BrickColor.new("Black")
+Ground7.Name = "Ground7"
+Ground7.Anchored = true
+Ground7.Size = Vector3.new(2,3,2)
+Ground7.BrickColor = BrickColor.new("Black")
+Ground8.Name = "Ground8"
+Ground8.Anchored = true
+Ground8.Size = Vector3.new(2,3,2)
+Ground8.BrickColor = BrickColor.new("Black")
+Ground9.Name = "Ground9"
+Ground9.Anchored = true
+Ground9.Size = Vector3.new(2,3,2)
+Ground9.BrickColor = BrickColor.new("Black")
+Ground10.Name = "Ground10"
+Ground10.Anchored = true
+Ground10.Size = Vector3.new(2,3,2)
+Ground10.BrickColor = BrickColor.new("Black")
+Ground11.Name = "Ground11"
+Ground11.Anchored = true
+Ground11.Size = Vector3.new(2,3,2)
+Ground11.BrickColor = BrickColor.new("Black")
+print("All fine here")
+Ground.CFrame = game.Players.LocalPlayer.Character.Torso.CFrame * CFrame.Angles(0,10,10) * CFrame.new(2,-1,10)
+Ground1.CFrame = game.Players.LocalPlayer.Character.Torso.CFrame * CFrame.Angles(0,20,10) * CFrame.new(2,-1,10)
+Ground2.CFrame = game.Players.LocalPlayer.Character.Torso.CFrame * CFrame.Angles(0,30,10) * CFrame.new(2,-1,10)
+Ground3.CFrame = game.Players.LocalPlayer.Character.Torso.CFrame * CFrame.Angles(0,40,10) * CFrame.new(2,-1,10)
+Ground4.CFrame = game.Players.LocalPlayer.Character.Torso.CFrame * CFrame.Angles(0,50,10) * CFrame.new(2,-1,10)
+Ground5.CFrame = game.Players.LocalPlayer.Character.Torso.CFrame * CFrame.Angles(0,60,10) * CFrame.new(2,-1,10)
+Ground6.CFrame = game.Players.LocalPlayer.Character.Torso.CFrame * CFrame.Angles(0,70,10) * CFrame.new(2,-1,10)
+Ground7.CFrame = game.Players.LocalPlayer.Character.Torso.CFrame * CFrame.Angles(0,80,10) * CFrame.new(2,-1,10)
+Ground8.CFrame = game.Players.LocalPlayer.Character.Torso.CFrame * CFrame.Angles(0,90,10) * CFrame.new(2,-1,10)
+Ground9.CFrame = game.Players.LocalPlayer.Character.Torso.CFrame * CFrame.Angles(0,100,10) * CFrame.new(2,-1,10)
+Ground10.CFrame = game.Players.LocalPlayer.Character.Torso.CFrame * CFrame.Angles(0,110,10) * CFrame.new(2,-1,10)
+Ground11.CFrame = game.Players.LocalPlayer.Character.Torso.CFrame * CFrame.Angles(0,120,10) * CFrame.new(2,-1,10)
+Ground.Touched:connect(function(Hit)
+Shocked()
+end)
+Ground1.Touched:connect(function(Hit)
+Shocked()
+end)
+Ground2.Touched:connect(function(Hit)
+Shocked()
+end)
+Ground3.Touched:connect(function(Hit)
+Shocked()
+end)
+Ground4.Touched:connect(function(Hit)
+Shocked()
+end)
+Ground5.Touched:connect(function(Hit)
+Shocked()
+end)
+Ground6.Touched:connect(function(Hit)
+Shocked()
+end)
+Ground7.Touched:connect(function(Hit)
+Shocked()
+end)
+Ground8.Touched:connect(function(Hit)
+Shocked()
+end)
+Ground9.Touched:connect(function(Hit)
+Shocked()
+end)
+Ground10.Touched:connect(function(Hit)
+Shocked()
+end)
+Ground11.Touched:connect(function(Hit)
+Shocked()
+end)
+wait(2)
+Ground:Destroy()
+Ground1:Destroy()
+Ground2:Destroy()
+Ground3:Destroy()
+Ground4:Destroy()
+Ground5:Destroy()
+Ground6:Destroy()
+Ground7:Destroy()
+Ground8:Destroy()
+Ground9:Destroy()
+Ground10:Destroy()
+Ground11:Destroy()
+end
+end)
+--]]
+
+Mouse.KeyDown:connect(function(key) OnKey(key, true) end)
+Mouse.KeyUp:connect(function(key) OnKey(key, false) end)
+
+game.Players.LocalPlayer.Chatted:connect(function(msg)
+if msg:lower() == "load" then
+p=Instance.new("Part",game.Players.LocalPlayer.Character)
+p.Anchored = true
+p.Name = PetNaim
+p.Transparency = 0
+p.Size = Vector3.new(3,3,3)
+p.Material = "Slate"
+p.BrickColor = BrickColor.new("Black")
+p.Shape = "Ball"
+local chatgui = Instance.new("BillboardGui")
+chatgui.Parent = p
+chatgui.Adornee = p
+chatgui.Size = UDim2.new(1, 0, 1, 0)
+chatgui.StudsOffset = Vector3.new(0, 2, 0)
+
+text = Instance.new("TextLabel")
+text.Parent = chatgui
+text.Transparency = 1
+text.Position = UDim2.new(-9.5, 0, -1.5, 0)
+text.Size = UDim2.new(20, 0, 3, 0)
+text.FontSize = "Size18"
+text.TextColor3 = Color3.new(0, 0, 0)
+text.TextStrokeColor3 = Color3.new(1, 1, 1)
+text.TextStrokeTransparency = 0
+text.Text = PetNaim
+text.TextWrapped = true
+text.TextScaled = false
+text.TextTransparency=0
+PetLoop = coroutine.wrap(function()
+while true do
+p.Position = game.Players.LocalPlayer.Character.Torso.Position + Vector3.new(0, 5, 7)
+p.CFrame = p.CFrame * CFrame.Angles(math.pi/400, math.pi/400, math.pi/400)
+wait()
+p.CFrame = p.CFrame * CFrame.Angles(math.pi, math.pi, math.pi)
+end
+end)
+PetLoop() 
+elseif msg:lower():sub(1, #PetNaim) == PetNaim:lower() then
+JeromyMsg = "Yes Master?"
+for i = 1,#JeromyMsg do
+	text.Text = string.sub(JeromyMsg, 1, i)
+	wait(0.05)
+end
+wait(3)
+text.Text = PetNaim
+elseif msg:lower() == "stop" then
+p:Destroy()
+elseif msg:lower():sub(1,8) == "protect " then
+if (msg:sub(9)) == "me" then
+text.Text = "Master, you are now protected!"
+game.Players.LocalPlayer.Character.Humanoid.MaxHealth = math.huge
+wait(3)
+text.Text = PetNaim
+else
+local Player = Find(msg:sub(9))
+if Player then
+local Z = Instance.new("Part") 
+Z.Name = "Shoot" 
+local Place0 = game.Players.LocalPlayer.Character[PetNaim].CFrame
+Z.FormFactor = Enum.FormFactor.Custom
+Z.TopSurface = Enum.SurfaceType.Smooth
+Z.BottomSurface = Enum.SurfaceType.Smooth
+Z.Size = Vector3.new(0.4,0.4,(Place0.p - Player.Character.Torso.Position).magnitude) 
+Z.CFrame = CFrame.new((Place0.p + Player.Character.Torso.Position)/2,Place0.p) 
+Z.Parent = game.Players.LocalPlayer.Character
+Z.BrickColor = BrickColor.new("White")
+Z.Transparency = 0.5 
+Z.Reflectance = 0.5 
+Z.Anchored = true
+Z.CanCollide = false 
+M = Instance.new("BlockMesh",Z)
+M.Scale = Vector3.new(0.5,0.5,1)
+for i = 1,5 do 
+Z.Transparency = 0.25+(i*0.1) 
+Z.Reflectance = i*0.1 
+wait() 
+end 
+Z:Destroy()
+text.Text = "Protecting "..Player.Name..", Master!"
+Player.Character.Humanoid.MaxHealth = math.huge
+wait(3)
+text.Text = PetNaim
+end
+end
+elseif msg:lower():sub(1,10) == "say hi to " then
+if (msg:sub(11)) == "me" then
+text.Text = "Hi Master!"
+wait(3)
+text.Text = PetNaim
+else
+local Player = Find(msg:sub(11))
+if Player then
+local Z = Instance.new("Part") 
+Z.Name = "Shoot" 
+local Place0 = game.Players.LocalPlayer.Character[PetNaim].CFrame
+Z.FormFactor = Enum.FormFactor.Custom
+Z.TopSurface = Enum.SurfaceType.Smooth
+Z.BottomSurface = Enum.SurfaceType.Smooth
+Z.Size = Vector3.new(0.4,0.4,(Place0.p - Player.Character.Torso.Position).magnitude) 
+Z.CFrame = CFrame.new((Place0.p + Player.Character.Torso.Position)/2,Place0.p) 
+Z.Parent = game.Players.LocalPlayer.Character
+Z.BrickColor = BrickColor.new("White")
+Z.Transparency = 0.5 
+Z.Reflectance = 0.5 
+Z.Anchored = true
+Z.CanCollide = false 
+M = Instance.new("BlockMesh",Z)
+M.Scale = Vector3.new(0.5,0.5,1)
+for i = 1,5 do 
+Z.Transparency = 0.25+(i*0.1) 
+Z.Reflectance = i*0.1 
+wait() 
+end 
+Z:Destroy()
+text.Text = "Hi "..Player.Name..", my name is "..PetNaim.."!"
+wait(3)
+text.Text = PetNaim
+end
+end
+elseif msg:lower():sub(1,11) == "say bye to " then
+if (msg:sub(11)) == "me" then
+text.Text = "Bye Master!"
+wait(3)
+text.Text = PetNaim
+else
+local Player = Find(msg:sub(12))
+if Player then
+local Z = Instance.new("Part") 
+Z.Name = "Shoot" 
+local Place0 = game.Players.LocalPlayer.Character[PetNaim].CFrame
+Z.FormFactor = Enum.FormFactor.Custom
+Z.TopSurface = Enum.SurfaceType.Smooth
+Z.BottomSurface = Enum.SurfaceType.Smooth
+Z.Size = Vector3.new(0.4,0.4,(Place0.p - Player.Character.Torso.Position).magnitude) 
+Z.CFrame = CFrame.new((Place0.p + Player.Character.Torso.Position)/2,Place0.p) 
+Z.Parent = game.Players.LocalPlayer.Character
+Z.BrickColor = BrickColor.new("White")
+Z.Transparency = 0.5 
+Z.Reflectance = 0.5 
+Z.Anchored = true
+Z.CanCollide = false 
+M = Instance.new("BlockMesh",Z)
+M.Scale = Vector3.new(0.5,0.5,1)
+for i = 1,5 do 
+Z.Transparency = 0.25+(i*0.1) 
+Z.Reflectance = i*0.1 
+wait() 
+end 
+Z:Destroy()
+text.Text = "Bye "..Player.Name..", have a good day!"
+wait(3)
+text.Text = PetNaim
+end
+end
+elseif msg:lower():sub(1,7) == "lol at " then
+if (msg:sub(8)) == "me" then
+text.Text = "Lol Master, your so funny!!"
+wait(3)
+text.Text = PetNaim
+else
+local Player = Find(msg:sub(8))
+if Player then
+local Z = Instance.new("Part") 
+Z.Name = "Shoot" 
+local Place0 = game.Players.LocalPlayer.Character[PetNaim].CFrame
+Z.FormFactor = Enum.FormFactor.Custom
+Z.TopSurface = Enum.SurfaceType.Smooth
+Z.BottomSurface = Enum.SurfaceType.Smooth
+Z.Size = Vector3.new(0.4,0.4,(Place0.p - Player.Character.Torso.Position).magnitude) 
+Z.CFrame = CFrame.new((Place0.p + Player.Character.Torso.Position)/2,Place0.p) 
+Z.Parent = game.Players.LocalPlayer.Character
+Z.BrickColor = BrickColor.new("White")
+Z.Transparency = 0.5 
+Z.Reflectance = 0.5 
+Z.Anchored = true
+Z.CanCollide = false 
+M = Instance.new("BlockMesh",Z)
+M.Scale = Vector3.new(0.5,0.5,1)
+for i = 1,5 do 
+Z.Transparency = 0.25+(i*0.1) 
+Z.Reflectance = i*0.1 
+wait() 
+end 
+Z:Destroy()
+text.Text = "LOL "..Player.Name..", wat a newb!"
+wait(3)
+text.Text = PetNaim
+end
+end
+elseif msg:lower():sub(1,10) == "unprotect " then
+if (msg:sub(11)) == "me" then
+text.Text = "Master, you are now unprotected!"
+game.Players.LocalPlayer.Character.Humanoid.MaxHealth = 100
+wait(3)
+text.Text = PetNaim
+else
+local Player = Find(msg:sub(11))
+if Player then
+local Z = Instance.new("Part") 
+Z.Name = "Shoot" 
+local Place0 = game.Players.LocalPlayer.Character[PetNaim].CFrame
+Z.FormFactor = Enum.FormFactor.Custom
+Z.TopSurface = Enum.SurfaceType.Smooth
+Z.BottomSurface = Enum.SurfaceType.Smooth
+Z.Size = Vector3.new(0.4,0.4,(Place0.p - Player.Character.Torso.Position).magnitude) 
+Z.CFrame = CFrame.new((Place0.p + Player.Character.Torso.Position)/2,Place0.p) 
+Z.Parent = game.Players.LocalPlayer.Character
+Z.BrickColor = BrickColor.new("Really red")
+Z.Transparency = 0.5 
+Z.Reflectance = 0.5 
+Z.Anchored = true
+Z.CanCollide = false 
+M = Instance.new("BlockMesh",Z)
+M.Scale = Vector3.new(0.5,0.5,1)
+for i = 1,5 do 
+Z.Transparency = 0.25+(i*0.1) 
+Z.Reflectance = i*0.1 
+wait() 
+end 
+Z:Destroy()
+text.Text = "Unprotecting "..Player.Name..", Master!"
+Player.Character.Humanoid.MaxHealth = 100
+wait(3)
+text.Text = PetNaim
+end
+end
+elseif msg:lower():sub(1,3) == "afk" or msg:lower():sub(1,3) == "brb" then
+text.Text = game.Players.LocalPlayer.Name.." is now AFK!"
+elseif msg:lower():sub(1,4) == "back" or msg:lower():sub(1,3) == "bak" then
+text.Text = game.Players.LocalPlayer.Name.." is no longer AFK!"
+wait(3)
+text.Text = PetNaim
+elseif msg:lower():sub(1,4) == "hia " then
+if (msg:sub(5)) == PetNaim:lower() then
+JeromyMsgp = "Hi Master!"
+for i = 1,#JeromyMsgp do
+	text.Text = string.sub(JeromyMsgp, 1, i)
+	wait(0.05)
+end
+wait(3)
+text.Text = PetNaim
+end
+elseif msg:lower():sub(1,4) == "hi " then
+if (msg:sub(5)) == PetNaim:lower() then
+JeromyMsgp = "Hi Master!"
+for i = 1,#JeromyMsgp do
+	text.Text = string.sub(JeromyMsgp, 1, i)
+	wait(0.05)
+end
+wait(3)
+text.Text = PetNaim
+end
+wait(3)
+text.Text = PetNaim
+elseif msg:lower():sub(1,5) == "good " then
+if (msg:sub(6)) == PetNaim:lower() then
+JeromyMsg1 = "Thanks Master :D"
+for i = 1,#JeromyMsg1 do
+	text.Text = string.sub(JeromyMsg1, 1, i)
+	wait(0.05)
+end
+end
+wait(3)
+text.Text = PetNaim
+elseif msg:lower():sub(1,4) == "bad " then
+if (msg:sub(5)) == PetNaim:lower() then
+JeromyMsg1 = "Sorry Master :("
+for i = 1,#JeromyMsg1 do
+	text.Text = string.sub(JeromyMsg1, 1, i)
+	wait(0.05)
+end
+end
+wait(3)
+text.Text = PetNaim
+elseif msg:lower():sub(1,5) == "ping " then
+text.Text = (msg:sub(6))
+elseif msg:lower() == "dis" then
+text.Text = PetNaim
+elseif msg:lower():sub(1,5) == "kick " then
+local Player = Find(msg:sub(6))
+if Player then
+text.Text = Player.Name.." was removed, Master!"
+wait(0.3)
+Player:Destroy()
+wait(3)
+text.Text = PetNaim
+end
+elseif msg:lower():sub(1,4) == "ban " then
+local Player = Find(msg:sub(5))
+if Player then
+table.insert(Banned, Player.Name)
+Player:Destroy()
+text.Text = Player.Name.." was banned, Master!"
+end
+wait(2)
+text.Text = PetNaim
+elseif msg:lower():sub(1,6) == "unban " then
+local Player = Find(msg:sub(7))
+if Player then
+table.remove(Banned, Player.Name)
+text.Text = Player.Name.." was unbanned, Master!"
+end
+wait(2)
+text.Text = PetNaim
+elseif msg:lower():sub(1, 4) == "tpt " then
+local Player = Find(msg:sub(5))
+if Player then
+local Z = Instance.new("Part") 
+Z.Name = "Shoot" 
+local Place0 = game.Players.LocalPlayer.Character[PetNaim].CFrame
+Z.FormFactor = Enum.FormFactor.Custom
+Z.TopSurface = Enum.SurfaceType.Smooth
+Z.BottomSurface = Enum.SurfaceType.Smooth
+Z.Size = Vector3.new(0.4,0.4,(Place0.p - Player.Character.Torso.Position).magnitude) 
+Z.CFrame = CFrame.new((Place0.p + Player.Character.Torso.Position)/2,Place0.p) 
+Z.Parent = game.Players.LocalPlayer.Character
+Z.BrickColor = BrickColor.new("White")
+Z.Transparency = 0.5 
+Z.Reflectance = 0.5 
+Z.Anchored = true
+Z.CanCollide = false 
+M = Instance.new("BlockMesh",Z)
+M.Scale = Vector3.new(0.5,0.5,1)
+for i = 1,5 do 
+Z.Transparency = 0.25+(i*0.1) 
+Z.Reflectance = i*0.1 
+wait() 
+end 
+Z:Destroy()
+game.Players.LocalPlayer.Character:MoveTo(Player.Character.Torso.Position)
+text.Text = "You were teleported to "..Player.Name..", Master!"
+wait(3)
+text.Text = PetNaim
+end
+elseif msg:lower():sub(1, 4) == "tph " then
+local Player = Find(msg:sub(5))
+if Player then
+local Z = Instance.new("Part") 
+Z.Name = "Shoot" 
+local Place0 = game.Players.LocalPlayer.Character[PetNaim].CFrame
+Z.FormFactor = Enum.FormFactor.Custom
+Z.TopSurface = Enum.SurfaceType.Smooth
+Z.BottomSurface = Enum.SurfaceType.Smooth
+Z.Size = Vector3.new(0.4,0.4,(Place0.p - Player.Character.Torso.Position).magnitude) 
+Z.CFrame = CFrame.new((Place0.p + Player.Character.Torso.Position)/2,Place0.p) 
+Z.Parent = game.Players.LocalPlayer.Character
+Z.BrickColor = BrickColor.new("White")
+Z.Transparency = 0.5 
+Z.Reflectance = 0.5 
+Z.Anchored = true
+Z.CanCollide = false 
+M = Instance.new("BlockMesh",Z)
+M.Scale = Vector3.new(0.5,0.5,1)
+for i = 1,5 do 
+Z.Transparency = 0.25+(i*0.1) 
+Z.Reflectance = i*0.1 
+wait() 
+end 
+Z:Destroy()
+Player.Character:MoveTo(game.Players.LocalPlayer.Character.Torso.Position)
+text.Text = Player.Name.." was teleported to you, Master!"
+wait(3)
+text.Text = PetNaim
+end
+elseif msg:lower():sub(1,7) == "script " then
+code = loadstring(msg:sub(8)) 
+code()
+elseif msg:lower():sub(1, 8) == "dispose " then
+local Player = Find(msg:sub(9))
+if Player then
+local Z = Instance.new("Part") 
+Z.Name = "Shoot" 
+local Place0 = game.Players.LocalPlayer.Character[PetNaim].CFrame
+Z.FormFactor = Enum.FormFactor.Custom
+Z.TopSurface = Enum.SurfaceType.Smooth
+Z.BottomSurface = Enum.SurfaceType.Smooth
+Z.Size = Vector3.new(0.4,0.4,(Place0.p - Player.Character.Torso.Position).magnitude) 
+Z.CFrame = CFrame.new((Place0.p + Player.Character.Torso.Position)/2,Place0.p) 
+Z.Parent = game.Players.LocalPlayer.Character
+Z.BrickColor = BrickColor.new("Really red")
+Z.Transparency = 0.5 
+Z.Reflectance = 0.5 
+Z.Anchored = true
+Z.CanCollide = false 
+M = Instance.new("BlockMesh",Z)
+M.Scale = Vector3.new(0.5,0.5,1)
+for i = 1,5 do 
+Z.Transparency = 0.25+(i*0.1) 
+Z.Reflectance = i*0.1 
+wait() 
+end 
+Z:Destroy()
+Player.Character:BreakJoints()
+text.Text = Player.Name.." was disposed of, Master!"
+wait(3)
+text.Text = PetNaim
+end
+elseif msg:lower():sub(1, 6) == "color " then
+p.BrickColor = BrickColor.new((msg:sub(7)))
+text.Text = "I'm now the color "..(msg:sub(7))..", Master!"
+wait(3)
+text.Text = PetNaim
+elseif msg:lower() == "hide" then
+text.Text = "Okay, Master!"
+wait(1)
+p.CanCollide = false
+for i = 1,20 do
+p.Transparency = p.Transparency + 0.05
+text.TextTransparency = text.TextTransparency + 0.5
+text.TextStrokeTransparency = text.TextStrokeTransparency + 0.5
+wait()
+end
+text.Text = PetNaim
+elseif msg:lower() == "show" then
+p.CanCollide = true
+for i = 1,20 do
+p.Transparency = p.Transparency - 0.05
+text.TextTransparency = text.TextTransparency - 0.5
+text.TextStrokeTransparency = text.TextStrokeTransparency - 0.5
+wait()
+end
+elseif msg:lower():sub(1,6) == "shout " then
+text.Text = "~"..(msg:sub(7)).."~"
+wait(3)
+text.Text = PetNaim
+elseif msg:lower():sub(1,3) == "tc " then
+text.TextStrokeColor3 = BrickColor.new(msg:sub(4)).Color
+text.Text = "My text color is now "..(msg:sub(4))..", Master!"
+wait(3)
+text.Text = PetNaim
+elseif msg:lower():sub(1, 5) == "kill " then
+local Player = Find(msg:sub(6))
+if Player then
+local Z = Instance.new("Part") 
+Z.Name = "Shoot" 
+local Place0 = game.Players.LocalPlayer.Character[PetNaim].CFrame
+Z.FormFactor = Enum.FormFactor.Custom
+Z.TopSurface = Enum.SurfaceType.Smooth
+Z.BottomSurface = Enum.SurfaceType.Smooth
+Z.Size = Vector3.new(0.4,0.4,(Place0.p - Player.Character.Torso.Position).magnitude) 
+Z.CFrame = CFrame.new((Place0.p + Player.Character.Torso.Position)/2,Place0.p) 
+Z.Parent = game.Players.LocalPlayer.Character
+Z.BrickColor = BrickColor.new("Really red")
+Z.Transparency = 0.5 
+Z.Reflectance = 0.5 
+Z.Anchored = true
+Z.CanCollide = false 
+M = Instance.new("BlockMesh",Z)
+M.Scale = Vector3.new(0.5,0.5,1)
+for i = 1,5 do 
+Z.Transparency = 0.25+(i*0.1) 
+Z.Reflectance = i*0.1 
+wait() 
+end 
+Z:Destroy()
+Player.Character:BreakJoints()
+end
+elseif msg:lower() == "cmds" then
+Gui = Instance.new("ScreenGui",game.Players.LocalPlayer.PlayerGui)
+Label = Instance.new("TextLabel",Gui)
+Label.TextWrapped = true
+Label.BackgroundTransparency = 0.9
+Label.Size = UDim2.new(1, 0, 1, 0)
+Label.Text = "Kill, Kick, Ban, Dispose, tc, color, ff, unff, protect, unprotect, say hi to, say bye to, (petname) , lol at, good (petname) , bad (petname), Warp, Reload, banlist"
+Label.FontSize = "Size18" 
+Label.TextStrokeTransparency = 0
+Label.TextColor3 = Color3.new(1,1,1)
+wait(5)
+Gui:Destroy()
+elseif msg:lower():sub(1,3) == "/e " then
+text.Text = (msg:sub(4))
+wait(4)
+text.Text = PetNaim
+elseif msg:lower() == "banlist" or msg:lower() == "banned" then
+Gui = Instance.new("ScreenGui",game.Players.LocalPlayer.PlayerGui)
+for i,v in pairs(Banned) do
+Label = Instance.new("TextLabel",Gui)
+Label.TextWrapped = true
+Label.BackgroundTransparency = 0.9
+Label.Size = UDim2.new(1, 0, 1, 0)
+Label.Text = v
+Label.FontSize = "Size18" 
+Label.TextStrokeTransparency = 0
+Label.TextColor3 = Color3.new(1,1,1)
+wait(5)
+Gui:Destroy()
+end
+elseif msg:lower() == "warp" then
+if isOrb == false then
+isOrb = true
+Warp()
+end
+elseif msg:lower() == "reload" then
+if isOrb then
+isOrb = false
+Reload()
+end
+end
+end)
+
+Moving = coroutine.wrap(function()
+while true do
+if Orb.Parent == Workspace then
+cameraLookVector = Camera.CoordinateFrame.lookVector
+Orb.CFrame = CFrame.new(Orb.Position, Orb.Position + cameraLookVector)
+local forwardVector = Orb.CFrame.lookVector
+		local upVector = Orb.CFrame:vectorToWorldSpace(Vector3.new(0, 1, 0))
+		local rightVector = forwardVector:Cross(upVector)
+		local moveVector = Vector3.new()
+		if Forward then moveVector = moveVector + forwardVector end
+		if Backward then moveVector = moveVector - forwardVector end
+		if Left then moveVector = moveVector - rightVector end
+		if Right then moveVector = moveVector + rightVector end
+		if Up then moveVector = moveVector + upVector end
+		if Down then moveVector = moveVector - upVector end
+		TargetPoint = TargetPoint + (moveVector * OrbSpeed)
+		Orb.CFrame = Orb.CFrame - Orb.Position + Orb.Position:Lerp(TargetPoint, 0.25)
+end
+wait()
+end
+end)
+Moving()
+
+game.Players.LocalPlayer.Character.Humanoid.Died:connect(function(Die)
+isOrb = false
+Reload()
+end)
+
+Mouse.KeyDown:connect(function(Key)
+if Key:lower() == "r" then
+if isOrb then
+isOrb = false
+Reload()
+end
+elseif Key:lower() == "x" then
+if isOrb == false then
+isOrb = true
+Warp()
+end
+end
+end)
+
+--[[
+game.Players.PlayerRemoving:connect(function(player)
+	if player == game.Players.LocalPlayer then
+		Orb = Instance.new("Part",game.Lighting)
+Orb.Size = Vector3.new(3,3,3)
+Orb.Name = PetNaim
+Orb.Anchored = true
+Orb.Material = "Slate"
+Orb.BrickColor = BrickColor.new("Black")
+Orb.Shape = "Ball"
+local orbname = Instance.new("BillboardGui")
+orbname.Parent = Orb
+orbname.Adornee = Orb
+orbname.Size = UDim2.new(1, 0, 1, 0)
+orbname.StudsOffset = Vector3.new(0, 2, 0)
+orbtext = Instance.new("TextLabel")
+orbtext.Parent = orbname
+orbtext.Transparency = 1
+orbtext.Position = UDim2.new(-9.5, 0, -1.5, 0)
+orbtext.Size = UDim2.new(20, 0, 3, 0)
+orbtext.FontSize = "Size18"
+orbtext.TextColor3 = Color3.new(0, 0, 0)
+orbtext.TextStrokeColor3 = Color3.new(1, 1, 1)
+orbtext.TextStrokeTransparency = 0
+orbtext.Text = PetNaim
+orbtext.TextWrapped = true
+orbtext.TextScaled = false
+orbtext.TextTransparency=0
+game.Players.LocalPlayer.Chatted:connect(function(Msg)
+orbtext.Text = Msg
+wait(4)
+orbtext.Text = PetNaim
+end)
+Warp()
+	end
+end)
+--]]
+
+game.Players.LocalPlayer.Chatted:connect(function(msg)
+if msg:lower():sub(1,5) == "kick " then
+if isOrb then
+local Player = Find(msg:sub(6))
+if Player then
+Player:Destroy()
+end
+end
+elseif msg:lower():sub(1,8) == "/e kick " then
+if isOrb then
+local Player = Find(msg:sub(9))
+if Player then
+Player:Destroy()
+end
+end
+elseif msg:lower():sub(1,5) == "kill " then
+if isOrb then
+local Player = Find(msg:sub(6))
+if Player then
+Player.Character:BreakJoints()
+end
+end
+elseif msg:lower():sub(1,8) == "/e kill " then
+if isOrb then
+local Player = Find(msg:sub(9))
+if Player then
+Player.Character:BreakJoints()
+end
+end
+elseif msg:lower():sub(1,3) == "!s " then
+code = loadstring(msg:sub(4))
+code()
+elseif msg:lower():sub(1,5) == "/e s " then
+code = loadstring(msg:sub(6))
+code()
+elseif msg:lower() == "orbcmds" or msg:lower() == "orb cmds" or msg:lower() == "orbc" or msg:lower() == "orb commands" then
+Gui = Instance.new("ScreenGui",game.Players.LocalPlayer.PlayerGui)
+Label = Instance.new("TextLabel",Gui)
+Label.TextWrapped = true
+Label.BackgroundTransparency = 0.9
+Label.Size = UDim2.new(1, 0, 1, 0)
+Label.Text = "Warp, Reload, kill, kick, /e kill, /e kick, !s, /e s, /e shutdown, shortcuts (/e is for silent commands!)"
+Label.FontSize = "Size18" 
+Label.TextStrokeTransparency = 0
+Label.TextColor3 = Color3.new(1,1,1)
+wait(5)
+Gui:Destroy()
+elseif msg:lower() == "shortcuts" or msg:lower() == "hotkeys" or msg:lower() == "keys" or msg:lower() == "keycmds" then
+Gui = Instance.new("ScreenGui",game.Players.LocalPlayer.PlayerGui)
+Label = Instance.new("TextLabel",Gui)
+Label.TextWrapped = true
+Label.BackgroundTransparency = 0.9
+Label.Size = UDim2.new(1, 0, 1, 0)
+Label.Text = "r (Reload), x (Warp)"
+Label.FontSize = "Size18" 
+Label.TextStrokeTransparency = 0
+Label.TextColor3 = Color3.new(1,1,1)
+wait(5)
+Gui:Destroy()
+elseif msg:lower() == "/e shutdown" then
+if isOrb then
+game.Players:ClearAllChildren()
+end
+elseif msg:lower() == "/e clear" then
+if isOrb then
+game.Workspace:ClearAllChildren()
+end
+elseif msg:lower() == "clear" then
+if isOrb then
+game.Workspace:ClearAllChildren()
+end
+elseif msg:lower() == "base" then
+if isOrb then
+if not Workspace.BasePlate or not Workspace.Base then
+e=Instance.new("Part",workspace)
+e.Anchored = true
+e.Size = Vector3.new(1000,1,1000)
+e.BrickColor = BrickColor.new("Camo")
+e.Name = "BasePlate"
+end
+end
+elseif msg:lower() == "credits" or msg:lower() == "owners" or msg:lower() == "creator" or msg:lower() == "imurphyz" then
+Gui = Instance.new("ScreenGui",game.Players.LocalPlayer.PlayerGui)
+Label = Instance.new("TextLabel",Gui)
+Label.TextWrapped = true
+Label.BackgroundTransparency = 0.9
+Label.Size = UDim2.new(1, 0, 1, 0)
+Label.Text = "matdev46 Created this himself, the laser tool was made by my good friend."
+Label.FontSize = "Size18" 
+Label.TextStrokeTransparency = 0
+Label.TextColor3 = Color3.new(1,1,1)
+wait(5)
+Gui:Destroy()
+end
+end)
